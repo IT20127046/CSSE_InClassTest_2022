@@ -1,3 +1,4 @@
+package com.refactoring.model;
 public class Employee {
 
 	public String employeeId;
