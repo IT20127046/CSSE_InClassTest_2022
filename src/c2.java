@@ -1,28 +1,24 @@
-
-
-import javax.xml.transform.TransformerFactoryConfigurationError;
-import javax.xml.transform.TransformerException;
 import java.io.File;
-import org.xml.sax.SAXException;
-import java.io.IOException;
 import javax.xml.parsers.DocumentBuilderFactory;
 import org.w3c.dom.NodeList;
-import javax.xml.parsers.ParserConfigurationException;
 import org.w3c.dom.Element;
-import javax.xml.transform.TransformerConfigurationException;
 
-public class c2 extends c1 {
-	
-	public static String Q(String id) throws Exception {
-		NodeList n; Element e = null;
-		n = DocumentBuilderFactory.newInstance().newDocumentBuilder()
-				.parse(new File("src/e/EmployeeQuery.xml"))
-				.getElementsByTagName("query");
-		for (int x = 0; x < n.getLength(); x++) {
-			e = (Element) n.item(x);
-			if (e.getAttribute("id").equals(id))
+public class c2 {
+
+	/**
+	 * This method is used to get the information from the xml file and arrange them
+	 */
+	public static String Query(String id) throws Exception {
+		NodeList nodeList;
+		Element element = null;
+
+		nodeList = DocumentBuilderFactory.newInstance().newDocumentBuilder()
+				.parse(new File(CommonConstants.EMPLOYEE_QUERY_PATH)).getElementsByTagName(CommonConstants.QUERY);
+		for (int index = 0; index < nodeList.getLength(); index++) {
+			element = (Element) nodeList.item(index);
+			if (element.getAttribute(CommonConstants.ID).equals(id))
 				break;
 		}
-		return e.getTextContent().trim();
+		return element.getTextContent().trim();
 	}
 }

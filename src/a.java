@@ -1,37 +1,35 @@
-
-
-import org.xml.sax.SAXException;
+import java.io.IOException;
 import java.sql.Connection;
-import java.util.logging.Logger;
 import java.sql.DriverManager;
-import javax.xml.parsers.ParserConfigurationException;
 import java.sql.PreparedStatement;
-import javax.xml.xpath.XPathExpressionException;
-
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.logging.Level;
 import java.sql.Statement;
-import java.io.IOException;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import java.util.Map;
+import javax.xml.xpath.XPathExpressionException;
+import javax.xml.parsers.ParserConfigurationException;
+import org.xml.sax.SAXException;
 
 public class a extends c1 {
 
-	private final ArrayList<b> el = new ArrayList<b>();
-
-	private static Connection c;
-
-	private static Statement s;
-
-	private PreparedStatement ps;
+	private final ArrayList<Employee> employeeList = new ArrayList<Employee>();
+	private static Connection connection;
+	private static Statement statement;
+	private PreparedStatement preparedStatement;
+	public static final Logger log = Logger.getLogger(a.class.getName());
 
 	public a() {
 		try {
 			Class.forName("com.mysql.jdbc.Driver");
-			c = DriverManager.getConnection(p.getProperty("url"), p.getProperty("username"),
+			connection = DriverManager.getConnection(p.getProperty("url"), p.getProperty("username"),
 					p.getProperty("password"));
+		} catch (SQLException e) {
+			log.log(Level.SEVERE, e.getMessage());
 		} catch (Exception e) {
+			log.log(Level.SEVERE, e.getMessage());
 		} 
 	}
 
@@ -41,77 +39,96 @@ public class a extends c1 {
 			int s = c3.XMLXPATHS().size();
 			for (int i = 0; i < s; i++) {
 				Map<String, String> l = c3.XMLXPATHS().get(i);
-				b EMPLOYEE = new b();
-				EMPLOYEE.eMPLOYEEiD(l.get("XpathEmployeeIDKey"));
-				EMPLOYEE.fULLnAME(l.get("XpathEmployeeNameKey"));
-				EMPLOYEE.aDDRESS(l.get("XpathEmployeeAddressKey"));
-				EMPLOYEE.fACULTYNAME(l.get("XpathFacultyNameKey"));
-				EMPLOYEE.dEPARTMENT(l.get("XpathDepartmentKey"));
-				EMPLOYEE.dESIGNATION(l.get("XpathDesignationKey"));
-				el.add(EMPLOYEE);
+				Employee EMPLOYEE = new Employee();
+				EMPLOYEE.setEmployeeId(l.get("XpathEmployeeIDKey"));
+				EMPLOYEE.setFullName(l.get("XpathEmployeeNameKey"));
+				EMPLOYEE.setAddress(l.get("XpathEmployeeAddressKey"));
+				EMPLOYEE.setFacultyName(l.get("XpathFacultyNameKey"));
+				EMPLOYEE.setDepartment(l.get("XpathDepartmentKey"));
+				EMPLOYEE.setDesignation(l.get("XpathDesignationKey"));
+				employeeList.add(EMPLOYEE);
 				System.out.println(EMPLOYEE.toString() + "\n");
 			}
+		} catch (ParserConfigurationException e) {
+			log.log(Level.SEVERE, e.getMessage());
+		} catch(SAXException e){
+			log.log(Level.SEVERE, e.getMessage());
+		} catch (IOException e) {
+			log.log(Level.SEVERE, e.getMessage());
+		} catch(NumberFormatException e) {
+			log.log(Level.SEVERE, e.getMessage());
+		} catch (XPathExpressionException e) {
+			log.log(Level.SEVERE, e.getMessage());
 		} catch (Exception e) {
+			log.log(Level.SEVERE, e.getMessage());
 		}
 	}
 
 	public void a3() {
 		try {
-			s = c.createStatement();
-			s.executeUpdate(c2.Q("q2"));
-			s.executeUpdate(c2.Q("q1"));
+			statement = connection.createStatement();
+			statement.executeUpdate(c2.Query(CommonConstants.QUERY2));
+			statement.executeUpdate(c2.Query(CommonConstants.QUERY1));
+		} catch (SQLException e) {
+			log.log(Level.SEVERE, e.getMessage());
 		} catch (Exception e) {
+			log.log(Level.SEVERE, e.getMessage());
 		}
 	}
 
 	public void a4() {
 		try {
-			ps = c.prepareStatement(c2.Q("q3"));
-			c.setAutoCommit(false);
-			for(int i = 0; i < el.size(); i++){
-				b e = el.get(i);
-				ps.setString(1, e.EMPLOYEEiDgET());
-				ps.setString(2, e.fULLnAMEgET());
-				ps.setString(3, e.aDDRESSgET());
-				ps.setString(4, e.fACULTYnAMEgET());
-				ps.setString(5, e.dEPARTMENTgET());
-				ps.setString(6, e.dESIGNATIONgET());
-				ps.addBatch();
+			preparedStatement = connection.prepareStatement(c2.Query(CommonConstants.QUERY3));
+			connection.setAutoCommit(false);
+			for(Employee employee: employeeList) {
+				preparedStatement.setString(1, employee.getEmployeeId());
+				preparedStatement.setString(2, employee.getFullName());
+				preparedStatement.setString(3, employee.getAddress());
+				preparedStatement.setString(4, employee.getFacultyName());
+				preparedStatement.setString(5, employee.getDepartment());
+				preparedStatement.setString(6, employee.getDesignation());
+				preparedStatement.addBatch();
 			}
-			ps.executeBatch();
-			c.commit();
+			preparedStatement.executeBatch();
+			connection.commit();
+		} catch (SQLException e) {
+			log.log(Level.SEVERE, e.getMessage());
 		} catch (Exception e) {
+			log.log(Level.SEVERE,e.getMessage());
 		}
 	}
 
 	public void eMPLOYEEGETBYID(String eid) {
 
-		b e = new b();
+		Employee employee = new Employee();
 		try {
-			ps = c.prepareStatement(c2.Q("q4"));
-			ps.setString(1, eid);
-			ResultSet R = ps.executeQuery();
-			while (R.next()) {
-				e.eMPLOYEEiD(R.getString(1));
-				e.fULLnAME(R.getString(2));
-				e.aDDRESS(R.getString(3));
-				e.fACULTYNAME(R.getString(4));
-				e.dEPARTMENT(R.getString(5));
-				e.dESIGNATION(R.getString(6));
+			preparedStatement = connection.prepareStatement(c2.Query(CommonConstants.QUERY4));
+			preparedStatement.setString(1, eid);
+			ResultSet resultTest = preparedStatement.executeQuery();
+			while (resultTest.next()) {
+				employee.setEmployeeId(resultTest.getString(1));
+				employee.setFullName(resultTest.getString(2));
+				employee.setAddress(resultTest.getString(3));
+				employee.setFacultyName(resultTest.getString(4));
+				employee.setDepartment(resultTest.getString(5));
+				employee.setDesignation(resultTest.getString(6));
 			}
-			ArrayList<b> l = new ArrayList<b>();
-			l.add(e);
-			eMPLOYEEoUTPUT(l);
-		} catch (Exception ex) {
+			ArrayList<Employee> list = new ArrayList<Employee>();
+			list.add(employee);
+			eMPLOYEEoUTPUT(list);
+		} catch (SQLException e) {
+			log.log(Level.SEVERE, e.getMessage());
+		} catch (Exception e) {
+			log.log(Level.SEVERE,e.getMessage());
 		}
 	}
 
 	public void EMPLOYEEDELETE(String eid) {
 
 		try {
-			ps = c.prepareStatement(c2.Q("q6"));
-			ps.setString(1, eid);
-			ps.executeUpdate();
+			preparedStatement = connection.prepareStatement(c2.Query(CommonConstants.QUERY6));
+			preparedStatement.setString(1, eid);
+			preparedStatement.executeUpdate();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -119,38 +136,35 @@ public class a extends c1 {
 
 	public void a5() {
 
-		ArrayList<b> l = new ArrayList<b>();
+		ArrayList<Employee> list = new ArrayList<Employee>();
 		try {
-			ps = c.prepareStatement(c2.Q("q5"));
-			ResultSet r = ps.executeQuery();
+			preparedStatement = connection.prepareStatement(c2.Query(CommonConstants.QUERY5));
+			ResultSet r = preparedStatement.executeQuery();
 			while (r.next()) {
-				b e = new b();
-				e.eMPLOYEEiD(r.getString(1));
-				e.fULLnAME(r.getString(2));
-				e.aDDRESS(r.getString(3));
-				e.fACULTYNAME(r.getString(4));
-				e.dEPARTMENT(r.getString(5));
-				e.dESIGNATION(r.getString(6));
-				l.add(e);
+				Employee e = new Employee();
+				e.setEmployeeId(r.getString(1));
+				e.setFullName(r.getString(2));
+				e.setAddress(r.getString(3));
+				e.setFacultyName(r.getString(4));
+				e.setDepartment(r.getString(5));
+				e.setDesignation(r.getString(6));
+				list.add(e);
 			}
 		} catch (Exception e) {
 		}
-		eMPLOYEEoUTPUT(l);
+		eMPLOYEEoUTPUT(list);
 	}
 	
-	public void eMPLOYEEoUTPUT(ArrayList<b> l){
+	public void eMPLOYEEoUTPUT(ArrayList<Employee> list){
 		
-		System.out.println("Employee ID" + "\t\t" + "Full Name" + "\t\t" + "Address" + "\t\t" + "Faculty Name" + "\t\t"
+		log.log(Level.INFO, "Employee ID" + "\t\t" + "Full Name" + "\t\t" + "Address" + "\t\t" + "Faculty Name" + "\t\t"
 				+ "Department" + "\t\t" + "Designation" + "\n");
-		System.out
-				.println("================================================================================================================");
-		for(int i = 0; i < l.size(); i++){
-			b e = l.get(i);
-			System.out.println(e.EMPLOYEEiDgET() + "\t" + e.fULLnAMEgET() + "\t\t"
-					+ e.aDDRESSgET() + "\t" + e.fACULTYnAMEgET() + "\t" + e.dEPARTMENTgET() + "\t"
-					+ e.dESIGNATIONgET() + "\n");
-			System.out
-			.println("----------------------------------------------------------------------------------------------------------------");
+		log.log(Level.INFO, "================================================================================================================");
+		for(Employee employee: list){
+			log.log(Level.INFO, employee.getEmployeeId() + "\t" + employee.getFullName() + "\t\t"
+					+ employee.getAddress() + "\t" + employee.getFacultyName() + "\t" + employee.getDepartment() + "\t"
+					+ employee.getDesignation() + "\n");
+			log.log(Level.INFO, "----------------------------------------------------------------------------------------------------------------");
 		}
 		
 	}
