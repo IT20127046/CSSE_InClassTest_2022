@@ -1,3 +1,4 @@
+package com.refactoring.util;
 
 
 import javax.xml.transform.TransformerException;
@@ -11,6 +12,7 @@ import java.util.ArrayList;
 import javax.xml.xpath.XPathExpressionException;
 import javax.xml.parsers.DocumentBuilderFactory;
 import org.xml.sax.SAXException;
+
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.transform.Result;
 import javax.xml.transform.Source;
@@ -24,7 +26,7 @@ import javax.xml.xpath.XPath;
 import javax.xml.xpath.XPathConstants;
 import javax.xml.xpath.XPathExpression;
 
-public class c3 extends c1 {
+public class Transformation extends CommonUtil {
 
 	private static final ArrayList<Map<String, String>> l = new ArrayList<Map<String, String>>();
 
@@ -32,16 +34,16 @@ public class c3 extends c1 {
 
 	public static void rEQUESTtRANSFORM() throws Exception {
 
-		Source x = new StreamSource(new File("src/e/EmployeeRequest.xml"));
-		Source s = new StreamSource(new File("src/e/Employee-modified.xsl"));
-		Result o = new StreamResult(new File("src/e/EmployeeResponse.xml"));
+		Source x = new StreamSource(new File("src/com/refactoring/resources/EmployeeRequest.xml"));
+		Source s = new StreamSource(new File("src/com/refactoring/resources/Employee-modified.xsl"));
+		Result o = new StreamResult(new File("src/com/refactoring/resources/EmployeeResponse.xml"));
 		TransformerFactory.newInstance().newTransformer(s).transform(x, o);
 	}
 
 	public static ArrayList<Map<String, String>> XMLXPATHS() throws Exception {
 
 		Document d = DocumentBuilderFactory.newInstance().newDocumentBuilder()
-				.parse("src/e/EmployeeResponse.xml");
+				.parse("src/com/refactoring/resources/EmployeeResponse.xml");
 		XPath x = XPathFactory.newInstance().newXPath();
 		int n = Integer.parseInt((String) x.compile("count(//Employees/Employee)").evaluate(d, XPathConstants.STRING));
 		for (int i = 1; i <= n; i++) {

@@ -1,3 +1,4 @@
+package com.refactoring.service;
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -13,15 +14,21 @@ import javax.xml.xpath.XPathExpressionException;
 import javax.xml.parsers.ParserConfigurationException;
 import org.xml.sax.SAXException;
 
-public class a extends c1 {
+import com.refactoring.model.Employee;
+import com.refactoring.util.CommonConstants;
+import com.refactoring.util.CommonUtil;
+import com.refactoring.util.Query;
+import com.refactoring.util.Transformation;
+
+public class EmployeeService extends CommonUtil {
 
 	private final ArrayList<Employee> employeeList = new ArrayList<Employee>();
 	private static Connection connection;
 	private static Statement statement;
 	private PreparedStatement preparedStatement;
-	public static final Logger log = Logger.getLogger(a.class.getName());
+	public static final Logger log = Logger.getLogger(EmployeeService.class.getName());
 
-	public a() {
+	public EmployeeService() {
 		try {
 			Class.forName("com.mysql.jdbc.Driver");
 			connection = DriverManager.getConnection(p.getProperty("url"), p.getProperty("username"),
@@ -36,9 +43,9 @@ public class a extends c1 {
 	public void a2() {
 
 		try {
-			int s = c3.XMLXPATHS().size();
+			int s = Transformation.XMLXPATHS().size();
 			for (int i = 0; i < s; i++) {
-				Map<String, String> l = c3.XMLXPATHS().get(i);
+				Map<String, String> l = Transformation.XMLXPATHS().get(i);
 				Employee EMPLOYEE = new Employee();
 				EMPLOYEE.setEmployeeId(l.get("XpathEmployeeIDKey"));
 				EMPLOYEE.setFullName(l.get("XpathEmployeeNameKey"));
@@ -67,8 +74,8 @@ public class a extends c1 {
 	public void a3() {
 		try {
 			statement = connection.createStatement();
-			statement.executeUpdate(c2.Query(CommonConstants.QUERY2));
-			statement.executeUpdate(c2.Query(CommonConstants.QUERY1));
+			statement.executeUpdate(Query.Query(CommonConstants.QUERY2));
+			statement.executeUpdate(Query.Query(CommonConstants.QUERY1));
 		} catch (SQLException e) {
 			log.log(Level.SEVERE, e.getMessage());
 		} catch (Exception e) {
@@ -78,7 +85,7 @@ public class a extends c1 {
 
 	public void a4() {
 		try {
-			preparedStatement = connection.prepareStatement(c2.Query(CommonConstants.QUERY3));
+			preparedStatement = connection.prepareStatement(Query.Query(CommonConstants.QUERY3));
 			connection.setAutoCommit(false);
 			for(Employee employee: employeeList) {
 				preparedStatement.setString(1, employee.getEmployeeId());
@@ -102,7 +109,7 @@ public class a extends c1 {
 
 		Employee employee = new Employee();
 		try {
-			preparedStatement = connection.prepareStatement(c2.Query(CommonConstants.QUERY4));
+			preparedStatement = connection.prepareStatement(Query.Query(CommonConstants.QUERY4));
 			preparedStatement.setString(1, eid);
 			ResultSet resultTest = preparedStatement.executeQuery();
 			while (resultTest.next()) {
@@ -126,7 +133,7 @@ public class a extends c1 {
 	public void EMPLOYEEDELETE(String eid) {
 
 		try {
-			preparedStatement = connection.prepareStatement(c2.Query(CommonConstants.QUERY6));
+			preparedStatement = connection.prepareStatement(Query.Query(CommonConstants.QUERY6));
 			preparedStatement.setString(1, eid);
 			preparedStatement.executeUpdate();
 		} catch (Exception e) {
@@ -138,7 +145,7 @@ public class a extends c1 {
 
 		ArrayList<Employee> list = new ArrayList<Employee>();
 		try {
-			preparedStatement = connection.prepareStatement(c2.Query(CommonConstants.QUERY5));
+			preparedStatement = connection.prepareStatement(Query.Query(CommonConstants.QUERY5));
 			ResultSet r = preparedStatement.executeQuery();
 			while (r.next()) {
 				Employee e = new Employee();
