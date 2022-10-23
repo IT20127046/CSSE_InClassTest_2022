@@ -26,6 +26,10 @@ import javax.xml.xpath.XPath;
 import javax.xml.xpath.XPathConstants;
 import javax.xml.xpath.XPathExpression;
 
+/**
+	** Transformation Class
+ */
+
 public class Transformation extends CommonUtil {
 
 	private static final ArrayList<Map<String, String>> l = new ArrayList<Map<String, String>>();
