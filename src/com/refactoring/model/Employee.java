@@ -1,12 +1,12 @@
 package com.refactoring.model;
 public class Employee {
 
-	public String employeeId;
-	public String fullName;
-	public String address;
-	public String facultyName;
-	public String department;
-	public String designation;
+	private String employeeId;
+	private String fullName;
+	private String address;
+	private String facultyName;
+	private String department;
+	private String designation;
 
 	public String getEmployeeId() {
 		return employeeId;
