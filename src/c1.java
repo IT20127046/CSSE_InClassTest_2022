@@ -15,6 +15,12 @@ public class c1 {
 		} catch (IOException e) {
 			log.log(Level.SEVERE, e.getMessage());
 
+		} catch (NumberFormatException e) {
+			log.log(Level.SEVERE, e.getMessage());
+
+		} catch (NullPointerException e) {
+			log.log(Level.SEVERE, e.getMessage());
+
 		} catch (Exception e) {
 			log.log(Level.SEVERE, e.getMessage());
 
