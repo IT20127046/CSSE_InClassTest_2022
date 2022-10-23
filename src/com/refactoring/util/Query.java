@@ -1,9 +1,10 @@
+package com.refactoring.util;
 import java.io.File;
 import javax.xml.parsers.DocumentBuilderFactory;
 import org.w3c.dom.NodeList;
 import org.w3c.dom.Element;
 
-public class c2 {
+public class Query extends CommonUtil {
 
 	/**
 	 * This method is used to get the information from the xml file and arrange them
