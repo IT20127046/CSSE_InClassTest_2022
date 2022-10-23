@@ -15,7 +15,7 @@ import org.xml.sax.SAXException;
 
 public class a extends c1 {
 
-	private final ArrayList<b> employeeList = new ArrayList<b>();
+	private final ArrayList<Employee> employeeList = new ArrayList<Employee>();
 	private static Connection connection;
 	private static Statement statement;
 	private PreparedStatement preparedStatement;
@@ -39,13 +39,13 @@ public class a extends c1 {
 			int s = c3.XMLXPATHS().size();
 			for (int i = 0; i < s; i++) {
 				Map<String, String> l = c3.XMLXPATHS().get(i);
-				b EMPLOYEE = new b();
-				EMPLOYEE.eMPLOYEEiD(l.get("XpathEmployeeIDKey"));
-				EMPLOYEE.fULLnAME(l.get("XpathEmployeeNameKey"));
-				EMPLOYEE.aDDRESS(l.get("XpathEmployeeAddressKey"));
-				EMPLOYEE.fACULTYNAME(l.get("XpathFacultyNameKey"));
-				EMPLOYEE.dEPARTMENT(l.get("XpathDepartmentKey"));
-				EMPLOYEE.dESIGNATION(l.get("XpathDesignationKey"));
+				Employee EMPLOYEE = new Employee();
+				EMPLOYEE.setEmployeeId(l.get("XpathEmployeeIDKey"));
+				EMPLOYEE.setFullName(l.get("XpathEmployeeNameKey"));
+				EMPLOYEE.setAddress(l.get("XpathEmployeeAddressKey"));
+				EMPLOYEE.setFacultyName(l.get("XpathFacultyNameKey"));
+				EMPLOYEE.setDepartment(l.get("XpathDepartmentKey"));
+				EMPLOYEE.setDesignation(l.get("XpathDesignationKey"));
 				employeeList.add(EMPLOYEE);
 				System.out.println(EMPLOYEE.toString() + "\n");
 			}
@@ -80,13 +80,13 @@ public class a extends c1 {
 		try {
 			preparedStatement = connection.prepareStatement(c2.Query(CommonConstants.QUERY3));
 			connection.setAutoCommit(false);
-			for(b employee: employeeList) {
-				preparedStatement.setString(1, employee.EMPLOYEEiDgET());
-				preparedStatement.setString(2, employee.fULLnAMEgET());
-				preparedStatement.setString(3, employee.aDDRESSgET());
-				preparedStatement.setString(4, employee.fACULTYnAMEgET());
-				preparedStatement.setString(5, employee.dEPARTMENTgET());
-				preparedStatement.setString(6, employee.dESIGNATIONgET());
+			for(Employee employee: employeeList) {
+				preparedStatement.setString(1, employee.getEmployeeId());
+				preparedStatement.setString(2, employee.getFullName());
+				preparedStatement.setString(3, employee.getAddress());
+				preparedStatement.setString(4, employee.getFacultyName());
+				preparedStatement.setString(5, employee.getDepartment());
+				preparedStatement.setString(6, employee.getDesignation());
 				preparedStatement.addBatch();
 			}
 			preparedStatement.executeBatch();
@@ -100,20 +100,20 @@ public class a extends c1 {
 
 	public void eMPLOYEEGETBYID(String eid) {
 
-		b employee = new b();
+		Employee employee = new Employee();
 		try {
 			preparedStatement = connection.prepareStatement(c2.Query(CommonConstants.QUERY4));
 			preparedStatement.setString(1, eid);
 			ResultSet resultTest = preparedStatement.executeQuery();
 			while (resultTest.next()) {
-				employee.eMPLOYEEiD(resultTest.getString(1));
-				employee.fULLnAME(resultTest.getString(2));
-				employee.aDDRESS(resultTest.getString(3));
-				employee.fACULTYNAME(resultTest.getString(4));
-				employee.dEPARTMENT(resultTest.getString(5));
-				employee.dESIGNATION(resultTest.getString(6));
+				employee.setEmployeeId(resultTest.getString(1));
+				employee.setFullName(resultTest.getString(2));
+				employee.setAddress(resultTest.getString(3));
+				employee.setFacultyName(resultTest.getString(4));
+				employee.setDepartment(resultTest.getString(5));
+				employee.setDesignation(resultTest.getString(6));
 			}
-			ArrayList<b> list = new ArrayList<b>();
+			ArrayList<Employee> list = new ArrayList<Employee>();
 			list.add(employee);
 			eMPLOYEEoUTPUT(list);
 		} catch (SQLException e) {
@@ -136,18 +136,18 @@ public class a extends c1 {
 
 	public void a5() {
 
-		ArrayList<b> list = new ArrayList<b>();
+		ArrayList<Employee> list = new ArrayList<Employee>();
 		try {
 			preparedStatement = connection.prepareStatement(c2.Query(CommonConstants.QUERY5));
 			ResultSet r = preparedStatement.executeQuery();
 			while (r.next()) {
-				b e = new b();
-				e.eMPLOYEEiD(r.getString(1));
-				e.fULLnAME(r.getString(2));
-				e.aDDRESS(r.getString(3));
-				e.fACULTYNAME(r.getString(4));
-				e.dEPARTMENT(r.getString(5));
-				e.dESIGNATION(r.getString(6));
+				Employee e = new Employee();
+				e.setEmployeeId(r.getString(1));
+				e.setFullName(r.getString(2));
+				e.setAddress(r.getString(3));
+				e.setFacultyName(r.getString(4));
+				e.setDepartment(r.getString(5));
+				e.setDesignation(r.getString(6));
 				list.add(e);
 			}
 		} catch (Exception e) {
@@ -155,15 +155,15 @@ public class a extends c1 {
 		eMPLOYEEoUTPUT(list);
 	}
 	
-	public void eMPLOYEEoUTPUT(ArrayList<b> list){
+	public void eMPLOYEEoUTPUT(ArrayList<Employee> list){
 		
 		log.log(Level.INFO, "Employee ID" + "\t\t" + "Full Name" + "\t\t" + "Address" + "\t\t" + "Faculty Name" + "\t\t"
 				+ "Department" + "\t\t" + "Designation" + "\n");
 		log.log(Level.INFO, "================================================================================================================");
-		for(b employee: list){
-			log.log(Level.INFO, employee.EMPLOYEEiDgET() + "\t" + employee.fULLnAMEgET() + "\t\t"
-					+ employee.aDDRESSgET() + "\t" + employee.fACULTYnAMEgET() + "\t" + employee.dEPARTMENTgET() + "\t"
-					+ employee.dESIGNATIONgET() + "\n");
+		for(Employee employee: list){
+			log.log(Level.INFO, employee.getEmployeeId() + "\t" + employee.getFullName() + "\t\t"
+					+ employee.getAddress() + "\t" + employee.getFacultyName() + "\t" + employee.getDepartment() + "\t"
+					+ employee.getDesignation() + "\n");
 			log.log(Level.INFO, "----------------------------------------------------------------------------------------------------------------");
 		}
 		
