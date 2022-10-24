@@ -12,7 +12,9 @@ public class CommonUtil {
 
 	static {
 		try {
-			properties.load(Query.class.getResourceAsStream("./config.properties"));
+
+			properties.load(Query.class.getResourceAsStream(CommonConstants.PROPERTIES_PATH));
+
 		} catch (IOException e) {
 			log.log(Level.SEVERE, e.getMessage());
 
