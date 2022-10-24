@@ -24,6 +24,7 @@ import javax.xml.transform.stream.StreamSource;
 import javax.xml.transform.TransformerFactory;
 import javax.xml.xpath.XPath;
 import javax.xml.xpath.XPathConstants;
+import javax.xml.xpath.XPathException;
 import javax.xml.xpath.XPathExpression;
 
 /**
@@ -45,7 +46,7 @@ public class Transformation extends CommonUtil {
 	 * @param employeeResponseXML - 
 	 * @throws Exception
 	 */
-	public static void requestTransform() throws Exception {
+	public static void requestTransform() throws IOException,TransformerException,XPathException,TransformerConfigurationException,TransformerFactoryConfigurationError,SAXException,ParserConfigurationException,XPathExpressionException {
 
 		Source employeeRequestXML = new StreamSource(new File(CommonConstants.EMPLOYEE_REQUEST_XML_PATH));
 		Source employeeModifiedXSL = new StreamSource(new File(CommonConstants.EMPLOYEE_MODIFIED_XSL_PATH));
