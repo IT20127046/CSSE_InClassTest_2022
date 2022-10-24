@@ -37,9 +37,9 @@ public class Transformation extends CommonUtil {
 
 	/**
 	 * Transform XML
-	 * @param employeeRequestXML - 
-	 * @param employeeModifiedXSL - 
-	 * @param employeeResponseXML - 
+	 * @param employeeRequestXML - get employee request XML file
+	 * @param employeeModifiedXSL - get employee modified XSL file
+	 * @param employeeResponseXML - get employee response XML file
 	 * @throws Exception
 	 */
 	public static void requestTransform() throws IOException,TransformerException,XPathException,TransformerConfigurationException,TransformerFactoryConfigurationError,SAXException,ParserConfigurationException,XPathExpressionException {
@@ -52,9 +52,8 @@ public class Transformation extends CommonUtil {
 
 	/**
 	 * @param responseDocument - 
-	 * @param EmployeeRequestXML - 
-	 * @param employeeCount - 
-	 * @return employeeList - 
+	 * @param employeeCount - get employee count in the XML file
+	 * @return employeeList - return employee Map 
 	 * @throws Exception
 	 */
 	public static ArrayList<Map<String, String>> xmlPaths() throws Exception {
