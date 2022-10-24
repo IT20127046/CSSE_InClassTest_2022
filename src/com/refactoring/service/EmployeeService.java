@@ -1,4 +1,10 @@
 package com.refactoring.service;
+
+import com.refactoring.model.Employee;
+import com.refactoring.util.CommonConstants;
+import com.refactoring.util.CommonUtil;
+import com.refactoring.util.Query;
+import com.refactoring.util.Transformation;
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -14,12 +20,6 @@ import javax.xml.xpath.XPathExpressionException;
 import javax.xml.parsers.ParserConfigurationException;
 import org.xml.sax.SAXException;
 
-import com.refactoring.model.Employee;
-import com.refactoring.util.CommonConstants;
-import com.refactoring.util.CommonUtil;
-import com.refactoring.util.Query;
-import com.refactoring.util.Transformation;
-
 public class EmployeeService extends CommonUtil {
 
 	private final ArrayList<Employee> employeeList = new ArrayList<Employee>();
@@ -30,9 +30,9 @@ public class EmployeeService extends CommonUtil {
 
 	public EmployeeService() {
 		try {
-			Class.forName("com.mysql.jdbc.Driver");
-			connection = DriverManager.getConnection(p.getProperty("url"), p.getProperty("username"),
-					p.getProperty("password"));
+			Class.forName(CommonConstants.CLASSNAME);
+			connection = DriverManager.getConnection(p.getProperty(CommonConstants.URL), p.getProperty(CommonConstants.USERNAME), p.getProperty(CommonConstants.PASSWORD));
+					p.getProperty(CommonConstants.PASSWORD);
 		} catch (SQLException e) {
 			log.log(Level.SEVERE, e.getMessage());
 		} catch (Exception e) {
@@ -74,8 +74,8 @@ public class EmployeeService extends CommonUtil {
 	public void a3() {
 		try {
 			statement = connection.createStatement();
-			statement.executeUpdate(Query.Query(CommonConstants.QUERY2));
-			statement.executeUpdate(Query.Query(CommonConstants.QUERY1));
+			statement.executeUpdate(Query.queryById(CommonConstants.QUERY_ID_DROP_TABLE));
+			statement.executeUpdate(Query.queryById(CommonConstants.QUERY_ID_CREATE_TABLE));
 		} catch (SQLException e) {
 			log.log(Level.SEVERE, e.getMessage());
 		} catch (Exception e) {
@@ -85,7 +85,7 @@ public class EmployeeService extends CommonUtil {
 
 	public void a4() {
 		try {
-			preparedStatement = connection.prepareStatement(Query.Query(CommonConstants.QUERY3));
+			preparedStatement = connection.prepareStatement(Query.queryById(CommonConstants.QUERY_ID_INSERT));
 			connection.setAutoCommit(false);
 			for(Employee employee: employeeList) {
 				preparedStatement.setString(1, employee.getEmployeeId());
@@ -109,7 +109,7 @@ public class EmployeeService extends CommonUtil {
 
 		Employee employee = new Employee();
 		try {
-			preparedStatement = connection.prepareStatement(Query.Query(CommonConstants.QUERY4));
+			preparedStatement = connection.prepareStatement(Query.queryById(CommonConstants.QUERY_ID_RETRIEVE_BY_ID));
 			preparedStatement.setString(1, eid);
 			ResultSet resultTest = preparedStatement.executeQuery();
 			while (resultTest.next()) {
@@ -133,7 +133,7 @@ public class EmployeeService extends CommonUtil {
 	public void EMPLOYEEDELETE(String eid) {
 
 		try {
-			preparedStatement = connection.prepareStatement(Query.Query(CommonConstants.QUERY6));
+			preparedStatement = connection.prepareStatement(Query.queryById(CommonConstants.QUERY_ID_DELETE));
 			preparedStatement.setString(1, eid);
 			preparedStatement.executeUpdate();
 		} catch (Exception e) {
@@ -145,7 +145,7 @@ public class EmployeeService extends CommonUtil {
 
 		ArrayList<Employee> list = new ArrayList<Employee>();
 		try {
-			preparedStatement = connection.prepareStatement(Query.Query(CommonConstants.QUERY5));
+			preparedStatement = connection.prepareStatement(Query.queryById(CommonConstants.QUERY_ID_RETRIEVE_ALL));
 			ResultSet r = preparedStatement.executeQuery();
 			while (r.next()) {
 				Employee e = new Employee();
