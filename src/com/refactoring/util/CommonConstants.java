@@ -51,4 +51,24 @@ public class CommonConstants {
     /** Constant for source object of EmployeeResponseXML in Transformation.java */
     public static final String EMPLOYEE_RESPONSE_XML_PATH = "src/com/refactoring/resources/EmployeeResponse.xml";
     
+    /** Constant for xpath key for employee id */
+    public static final String XPATH_EMPLOYEE_ID = "XpathEmployeeIDKey";
+
+    /** Constant for xpath key for employee name */
+    public static final String XPATH_EMPLOYEE_FULLNAME = "XpathEmployeeNameKey";
+
+    /** Constant for xpath key for employee age */
+    public static final String XPATH_EMPLOYEE_ADDRESS = "XpathEmployeeAddressKey";
+
+    /** Constant for xpath key for employee faculty name */
+    public static final String XPATH_EMPLOYEE_FACULTYNAME = "XpathFacultyNameKey";
+
+    /** Constant for xpath key for employee department */
+    public static final String XPATH_EMPLOYEE_DEPARTMENT = "XpathDepartmentKey";
+
+    /** Constant for xpath key for employee designation */
+    public static final String XPATH_EMPLOYEE_DESIGNATION = "XpathDesignationKey";
+
+    /** Constant for line break */
+    public static final String LINE_BREAK = "\n";
 }

@@ -48,14 +48,14 @@ public class EmployeeService extends CommonUtil {
 			for (int i = 0; i < s; i++) {
 				Map<String, String> l = Transformation.XMLXPATHS().get(i);
 				Employee EMPLOYEE = new Employee();
-				EMPLOYEE.setEmployeeId(l.get("XpathEmployeeIDKey"));
-				EMPLOYEE.setFullName(l.get("XpathEmployeeNameKey"));
-				EMPLOYEE.setAddress(l.get("XpathEmployeeAddressKey"));
-				EMPLOYEE.setFacultyName(l.get("XpathFacultyNameKey"));
-				EMPLOYEE.setDepartment(l.get("XpathDepartmentKey"));
-				EMPLOYEE.setDesignation(l.get("XpathDesignationKey"));
+				EMPLOYEE.setEmployeeId(l.get(CommonConstants.XPATH_EMPLOYEE_ID));
+				EMPLOYEE.setFullName(l.get(CommonConstants.XPATH_EMPLOYEE_FULLNAME));
+				EMPLOYEE.setAddress(l.get(CommonConstants.XPATH_EMPLOYEE_ADDRESS));
+				EMPLOYEE.setFacultyName(l.get(CommonConstants.XPATH_EMPLOYEE_ADDRESS));
+				EMPLOYEE.setDepartment(l.get(CommonConstants.XPATH_EMPLOYEE_DEPARTMENT));
+				EMPLOYEE.setDesignation(l.get(CommonConstants.XPATH_EMPLOYEE_DESIGNATION));
 				employeeList.add(EMPLOYEE);
-				System.out.println(EMPLOYEE.toString() + "\n");
+				System.out.println(EMPLOYEE.toString() + CommonConstants.LINE_BREAK);
 			}
 		} catch (ParserConfigurationException e) {
 			log.log(Level.SEVERE, e.getMessage());
