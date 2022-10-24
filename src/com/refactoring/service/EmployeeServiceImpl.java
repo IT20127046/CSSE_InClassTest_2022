@@ -126,12 +126,12 @@ public class EmployeeServiceImpl extends EmployeeService {
 			preparedStatement = connection.prepareStatement(Query.queryById(CommonConstants.QUERY_ID_INSERT));
 			connection.setAutoCommit(false);
 			for (Employee employee : employeeList) {
-				preparedStatement.setString(1, employee.getEmployeeId());
-				preparedStatement.setString(2, employee.getFullName());
-				preparedStatement.setString(3, employee.getAddress());
-				preparedStatement.setString(4, employee.getFacultyName());
-				preparedStatement.setString(5, employee.getDepartment());
-				preparedStatement.setString(6, employee.getDesignation());
+				preparedStatement.setString(CommonConstants.COLUMN_INDEX_1, employee.getEmployeeId());
+				preparedStatement.setString(CommonConstants.COLUMN_INDEX_2, employee.getFullName());
+				preparedStatement.setString(CommonConstants.COLUMN_INDEX_3, employee.getAddress());
+				preparedStatement.setString(CommonConstants.COLUMN_INDEX_4, employee.getFacultyName());
+				preparedStatement.setString(CommonConstants.COLUMN_INDEX_5, employee.getDepartment());
+				preparedStatement.setString(CommonConstants.COLUMN_INDEX_6, employee.getDesignation());
 				preparedStatement.addBatch();
 			}
 			preparedStatement.executeBatch();
@@ -316,8 +316,4 @@ public class EmployeeServiceImpl extends EmployeeService {
 		}
 
 	}
-		
-	
-
-	
 }
