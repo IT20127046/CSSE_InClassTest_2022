@@ -1,25 +1,13 @@
 package com.refactoring.service;
 
 import com.refactoring.model.Employee;
-import com.refactoring.util.CommonConstants;
 import com.refactoring.util.CommonUtil;
 import com.refactoring.util.DBConnectionUtil;
-import com.refactoring.util.Query;
-import com.refactoring.util.Transformation;
-import java.io.IOException;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import java.util.Map;
-import javax.xml.xpath.XPathExpressionException;
-import javax.xml.parsers.ParserConfigurationException;
-import org.xml.sax.SAXException;
+
 
 /**
  * Abstract class for template method
@@ -36,7 +24,6 @@ public abstract class EmployeeService extends CommonUtil {
 	abstract void diplayEmployees(ArrayList<Employee> employeeList);
 	
 
-	private static Connection connection;
 	public static final Logger log = Logger.getLogger(EmployeeService.class.getName());
 
 	/**
@@ -45,7 +32,7 @@ public abstract class EmployeeService extends CommonUtil {
 
 	public EmployeeService() {
 		try {
-			connection = DBConnectionUtil.getDBConnection();
+			DBConnectionUtil.getDBConnection();
 
 		} catch (SQLException e) {
 			log.log(Level.SEVERE, e.getMessage());

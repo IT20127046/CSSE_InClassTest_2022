@@ -13,7 +13,7 @@ import java.util.Properties;
 public class CommonUtil {
 
 	/** Initialize logger */
-	public static final Logger log = Logger.getLogger(EmployeeService.class.getName());
+	public static final Logger log = Logger.getLogger(CommonUtil.class.getName());
 
 	public static final Properties properties = new Properties();
 
