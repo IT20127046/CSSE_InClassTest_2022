@@ -44,9 +44,9 @@ public class EmployeeService extends CommonUtil {
 	public void a2() {
 
 		try {
-			int s = Transformation.XMLXPATHS().size();
+			int s = Transformation.xmlPaths().size();
 			for (int i = 0; i < s; i++) {
-				Map<String, String> l = Transformation.XMLXPATHS().get(i);
+				Map<String, String> l = Transformation.xmlPaths().get(i);
 				Employee EMPLOYEE = new Employee();
 				EMPLOYEE.setEmployeeId(l.get(CommonConstants.XPATH_EMPLOYEE_ID));
 				EMPLOYEE.setFullName(l.get(CommonConstants.XPATH_EMPLOYEE_FULLNAME));
