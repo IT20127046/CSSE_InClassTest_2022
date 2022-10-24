@@ -27,7 +27,7 @@ public class EmployeeService extends CommonUtil {
 	private static Statement statement;
 	private PreparedStatement preparedStatement;
 	public static final Logger log = Logger.getLogger(EmployeeService.class.getName());
-
+	
 	public EmployeeService() {
 		try {
 			Class.forName(CommonConstants.CLASSNAME);
