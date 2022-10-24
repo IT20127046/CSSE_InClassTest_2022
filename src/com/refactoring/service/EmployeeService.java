@@ -33,6 +33,7 @@ public class EmployeeService extends CommonUtil {
 			Class.forName(CommonConstants.CLASSNAME);
 			connection = DriverManager.getConnection(p.getProperty(CommonConstants.URL), p.getProperty(CommonConstants.USERNAME), p.getProperty(CommonConstants.PASSWORD));
 					p.getProperty(CommonConstants.PASSWORD);
+
 		} catch (SQLException e) {
 			log.log(Level.SEVERE, e.getMessage());
 		} catch (Exception e) {

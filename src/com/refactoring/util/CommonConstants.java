@@ -41,4 +41,14 @@ public class CommonConstants {
 
     /** Constant for id of query for delete record in EmployeeQuery.xml */
     public static final String QUERY_ID_DELETE = "q6";
+
+    /** Constant for source object of EmployeeRequestXML in Transformation.java */
+    public static final String EMPLOYEE_REQUEST_XML_PATH = "src/com/refactoring/resources/EmployeeRequest.xml";
+
+    /** Constant for source object of EmployeeModifiedXSL in Transformation.java */
+    public static final String EMPLOYEE_MODIFIED_XSL_PATH = "src/com/refactoring/resources/Employee-modified.xsl";
+    
+    /** Constant for source object of EmployeeResponseXML in Transformation.java */
+    public static final String EMPLOYEE_RESPONSE_XML_PATH = "src/com/refactoring/resources/EmployeeResponse.xml";
+    
 }
