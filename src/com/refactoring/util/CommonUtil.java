@@ -7,12 +7,14 @@ import java.util.Properties;
 
 public class CommonUtil {
 
-	public static final Properties p = new Properties();
+	public static final Properties properties = new Properties();
 	public static final Logger log = Logger.getLogger(Exception.class.getName());
 
 	static {
 		try {
-			p.load(Query.class.getResourceAsStream(CommonConstants.PROPERTIES_PATH));
+
+			properties.load(Query.class.getResourceAsStream(CommonConstants.PROPERTIES_PATH));
+
 		} catch (IOException e) {
 			log.log(Level.SEVERE, e.getMessage());
 
