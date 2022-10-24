@@ -12,6 +12,9 @@ public class CommonConstants {
     /** Constant for password for MySQL stored in config.properties */
     public static final String PASSWORD = "password";
 
+    /** Constant for driver name key of MySQL database in config.properties */
+	public static final String DRIVER_NAME = "driverName";
+
     /** Constant for classname */
     public static final String CLASSNAME = "com.mysql.jdbc.Driver";
 
