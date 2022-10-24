@@ -1,31 +1,27 @@
 package com.refactoring.util;
 
-
-import javax.xml.transform.TransformerException;
-import javax.xml.xpath.XPathFactory;
-import java.util.HashMap;
-import java.util.Map;
 import java.io.File;
 import java.io.IOException;
-import java.text.MessageFormat;
 import java.util.ArrayList;
-import javax.xml.xpath.XPathExpressionException;
+import java.util.HashMap;
+import java.util.Map;
 import javax.xml.parsers.DocumentBuilderFactory;
-import org.xml.sax.SAXException;
-
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.transform.Result;
 import javax.xml.transform.Source;
-import org.w3c.dom.Document;
 import javax.xml.transform.TransformerConfigurationException;
 import javax.xml.transform.TransformerFactoryConfigurationError;
 import javax.xml.transform.stream.StreamResult;
 import javax.xml.transform.stream.StreamSource;
+import javax.xml.transform.TransformerException;
 import javax.xml.transform.TransformerFactory;
 import javax.xml.xpath.XPath;
 import javax.xml.xpath.XPathConstants;
 import javax.xml.xpath.XPathException;
-import javax.xml.xpath.XPathExpression;
+import javax.xml.xpath.XPathExpressionException;
+import javax.xml.xpath.XPathFactory;
+import org.w3c.dom.Document;
+import org.xml.sax.SAXException;
 
 /**
 	** Transformation Class
@@ -68,18 +64,18 @@ public class Transformation extends CommonUtil {
 		int employeeCount = Integer.parseInt((String) employeeRequestXML.compile("count(//Employees/Employee)").evaluate(responseDocument, XPathConstants.STRING));
 		for (int i = 1; i <= employeeCount; i++) {
 			employeeMap = new HashMap<String, String>();
-			employeeMap.put("XpathEmployeeIDKey", (String) employeeRequestXML.compile("//Employees/Employee[" + i + "]/EmployeeID/text()")
+			employeeMap.put(CommonConstants.XPATH_EMPLOYEE_ID, (String) employeeRequestXML.compile("//Employees/Employee[" + i + "]/EmployeeID/text()")
 					.evaluate(responseDocument, XPathConstants.STRING));
-			employeeMap.put("XpathEmployeeNameKey", (String) employeeRequestXML.compile("//Employees/Employee[" + i + "]/EmployeeFullName/text()")
+			employeeMap.put(CommonConstants.XPATH_EMPLOYEE_FULLNAME, (String) employeeRequestXML.compile("//Employees/Employee[" + i + "]/EmployeeFullName/text()")
 					.evaluate(responseDocument, XPathConstants.STRING));
-			employeeMap.put("XpathEmployeeAddressKey",
+			employeeMap.put(CommonConstants.XPATH_EMPLOYEE_ADDRESS,
 					(String) employeeRequestXML.compile("//Employees/Employee[" + i + "]/EmployeeFullAddress/text()").evaluate(responseDocument,
 							XPathConstants.STRING));
-			employeeMap.put("XpathFacultyNameKey", (String) employeeRequestXML.compile("//Employees/Employee[" + i + "]/FacultyName/text()")
+			employeeMap.put(CommonConstants.XPATH_EMPLOYEE_FACULTYNAME, (String) employeeRequestXML.compile("//Employees/Employee[" + i + "]/FacultyName/text()")
 					.evaluate(responseDocument, XPathConstants.STRING));
-			employeeMap.put("XpathDepartmentKey", (String) employeeRequestXML.compile("//Employees/Employee[" + i + "]/Department/text()")
+			employeeMap.put(CommonConstants.XPATH_EMPLOYEE_DEPARTMENT, (String) employeeRequestXML.compile("//Employees/Employee[" + i + "]/Department/text()")
 					.evaluate(responseDocument, XPathConstants.STRING));
-			employeeMap.put("XpathDesignationKey", (String) employeeRequestXML.compile("//Employees/Employee[" + i + "]/Designation/text()")
+			employeeMap.put(CommonConstants.XPATH_EMPLOYEE_DESIGNATION, (String) employeeRequestXML.compile("//Employees/Employee[" + i + "]/Designation/text()")
 					.evaluate(responseDocument, XPathConstants.STRING));
 			employeeList.add(employeeMap);
 		}
