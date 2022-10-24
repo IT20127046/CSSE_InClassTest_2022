@@ -78,4 +78,22 @@ public class CommonConstants {
 
     /** Constant for line break */
     public static final String LINE_BREAK = "\n";
+
+    /** Constant for column index 1 */
+    public static final int COLUMN_INDEX_1 = 1;
+
+    /** Constant for column index 2 */
+    public static final int COLUMN_INDEX_2 = 2;
+
+    /** Constant for column index 3 */
+    public static final int COLUMN_INDEX_3 = 3;
+
+    /** Constant for column index 4 */
+    public static final int COLUMN_INDEX_4 = 4;
+
+    /** Constant for column index 5 */
+    public static final int COLUMN_INDEX_5 = 5;
+
+    /** Constant for column index 6 */
+    public static final int COLUMN_INDEX_6 = 6;
 }

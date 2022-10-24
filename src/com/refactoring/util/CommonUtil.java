@@ -1,6 +1,5 @@
 package com.refactoring.util;
 
-import com.refactoring.service.EmployeeService;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -13,8 +12,9 @@ import java.util.Properties;
 public class CommonUtil {
 
 	/** Initialize logger */
-	public static final Logger log = Logger.getLogger(EmployeeService.class.getName());
+	public static final Logger log = Logger.getLogger(CommonUtil.class.getName());
 
+	// Load the property file
 	public static final Properties properties = new Properties();
 
 	static {

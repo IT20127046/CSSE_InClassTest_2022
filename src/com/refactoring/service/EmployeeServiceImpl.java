@@ -37,7 +37,7 @@ public class EmployeeServiceImpl extends EmployeeService {
 	 */
 	public static EmployeeServiceImpl getInstance() {
 		if (uniqueEmpInstance == null) {
-			synchronized (EmployeeService.class) {
+			synchronized (EmployeeServiceImpl.class) {
 				if (uniqueEmpInstance == null) {
 					uniqueEmpInstance = new EmployeeServiceImpl();
 				}
@@ -103,7 +103,13 @@ public class EmployeeServiceImpl extends EmployeeService {
 			statement.executeUpdate(Query.queryById(CommonConstants.QUERY_ID_CREATE_TABLE));
 		} catch (SQLException e) {
 			log.log(Level.SEVERE, e.getMessage());
-		} catch (Exception e) {
+		} catch (SAXException e) {
+			log.log(Level.SEVERE, e.getMessage());
+		} catch (IOException e) {
+			log.log(Level.SEVERE, e.getMessage());
+		} catch ( ParserConfigurationException e) {
+			log.log(Level.SEVERE, e.getMessage());
+		} catch ( Exception e) {
 			log.log(Level.SEVERE, e.getMessage());
 		}
 		
@@ -120,20 +126,40 @@ public class EmployeeServiceImpl extends EmployeeService {
 			preparedStatement = connection.prepareStatement(Query.queryById(CommonConstants.QUERY_ID_INSERT));
 			connection.setAutoCommit(false);
 			for (Employee employee : employeeList) {
-				preparedStatement.setString(1, employee.getEmployeeId());
-				preparedStatement.setString(2, employee.getFullName());
-				preparedStatement.setString(3, employee.getAddress());
-				preparedStatement.setString(4, employee.getFacultyName());
-				preparedStatement.setString(5, employee.getDepartment());
-				preparedStatement.setString(6, employee.getDesignation());
+				preparedStatement.setString(CommonConstants.COLUMN_INDEX_1, employee.getEmployeeId());
+				preparedStatement.setString(CommonConstants.COLUMN_INDEX_2, employee.getFullName());
+				preparedStatement.setString(CommonConstants.COLUMN_INDEX_3, employee.getAddress());
+				preparedStatement.setString(CommonConstants.COLUMN_INDEX_4, employee.getFacultyName());
+				preparedStatement.setString(CommonConstants.COLUMN_INDEX_5, employee.getDepartment());
+				preparedStatement.setString(CommonConstants.COLUMN_INDEX_6, employee.getDesignation());
 				preparedStatement.addBatch();
 			}
 			preparedStatement.executeBatch();
 			connection.commit();
 		} catch (SQLException e) {
 			log.log(Level.SEVERE, e.getMessage());
-		} catch (Exception e) {
+		} catch (SAXException e) {
 			log.log(Level.SEVERE, e.getMessage());
+		} catch ( IOException e) {
+			log.log(Level.SEVERE, e.getMessage());
+		} catch ( ParserConfigurationException  e) {
+			log.log(Level.SEVERE, e.getMessage());
+		} catch ( Exception  e) {
+			log.log(Level.SEVERE, e.getMessage());
+		} finally {
+			/*
+			 * Close the open connections
+			 */
+			try {
+				if (preparedStatement != null) {
+					preparedStatement.close();
+				}
+				if (connection != null) {
+					connection.close();
+				}
+			} catch (SQLException e) {
+				log.log(Level.SEVERE, e.getMessage());
+			}
 		}
 		
 	}
@@ -166,10 +192,24 @@ public class EmployeeServiceImpl extends EmployeeService {
 			ArrayList<Employee> empList = new ArrayList<Employee>();
 			empList.add(employee);
 			diplayEmployees(empList);
-		} catch (SQLException e) {
+		} catch (SQLException | SAXException | IOException | ParserConfigurationException e) {
 			log.log(Level.SEVERE, e.getMessage());
 		} catch (Exception e) {
 			log.log(Level.SEVERE, e.getMessage());
+		} finally {
+			/*
+			 * Close the open connections
+			 */
+			try {
+				if (preparedStatement != null) {
+					preparedStatement.close();
+				}
+				if (connection != null) {
+					connection.close();
+				}
+			} catch (SQLException e) {
+				log.log(Level.SEVERE, e.getMessage());
+			}
 		}
 		
 	}
@@ -187,8 +227,24 @@ public class EmployeeServiceImpl extends EmployeeService {
 			preparedStatement = connection.prepareStatement(Query.queryById(CommonConstants.QUERY_ID_DELETE));
 			preparedStatement.setString(1, eid);
 			preparedStatement.executeUpdate();
+		} catch (SQLException | SAXException | IOException | ParserConfigurationException e) {
+			log.log(Level.SEVERE, e.getMessage());
 		} catch (Exception e) {
-			e.printStackTrace();
+			log.log(Level.SEVERE, e.getMessage());
+		} finally {
+			/*
+			 * Close the open connections
+			 */
+			try {
+				if (preparedStatement != null) {
+					preparedStatement.close();
+				}
+				if (connection != null) {
+					connection.close();
+				}
+			} catch (SQLException e) {
+				log.log(Level.SEVERE, e.getMessage());
+			}
 		}
 		
 	}
@@ -216,7 +272,24 @@ public class EmployeeServiceImpl extends EmployeeService {
 				emplyoee.setDesignation(resultSet.getString(6));
 				empList.add(emplyoee);
 			}
+		} catch (SQLException | SAXException | IOException | ParserConfigurationException e) {
+			log.log(Level.SEVERE, e.getMessage());
 		} catch (Exception e) {
+			log.log(Level.SEVERE, e.getMessage());
+		} finally {
+			/*
+			 * Close the open connections
+			 */
+			try {
+				if (preparedStatement != null) {
+					preparedStatement.close();
+				}
+				if (connection != null) {
+					connection.close();
+				}
+			} catch (SQLException e) {
+				log.log(Level.SEVERE, e.getMessage());
+			}
 		}
 		diplayEmployees(empList);
 		
@@ -243,8 +316,4 @@ public class EmployeeServiceImpl extends EmployeeService {
 		}
 
 	}
-		
-	
-
-	
 }
