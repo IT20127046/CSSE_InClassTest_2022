@@ -27,7 +27,14 @@ public class EmployeeService extends CommonUtil {
 	private static Statement statement;
 	private PreparedStatement preparedStatement;
 	public static final Logger log = Logger.getLogger(EmployeeService.class.getName());
+
 	
+
+
+	/**
+	 * Create EmployeeService constructor 
+	 */
+
 	public EmployeeService() {
 		try {
 			Class.forName(CommonConstants.CLASSNAME);
@@ -41,21 +48,31 @@ public class EmployeeService extends CommonUtil {
 		}
 	}
 
-	public void a2() {
+	/**
+	 * Store employees details to Map
+	 * 
+	 * @throws ParserConfigurationException - Indicates a serious configuration error
+	 * @throws SAXException - Encapsulate a general SAX error or warning
+	 * @throws IOException - Exception produced by failed or interrupted I/O operations
+	 * @throws NumberFormatException - 
+	 * @throws XPathExpressionException - 
+	 *
+	 */
+	public void setEmployees() {
 
 		try {
-			int s = Transformation.xmlPaths().size();
-			for (int i = 0; i < s; i++) {
+			int XMLSize = Transformation.xmlPaths().size();
+			for (int i = 0; i < XMLSize; i++) {
 				Map<String, String> l = Transformation.xmlPaths().get(i);
-				Employee EMPLOYEE = new Employee();
-				EMPLOYEE.setEmployeeId(l.get(CommonConstants.XPATH_EMPLOYEE_ID));
-				EMPLOYEE.setFullName(l.get(CommonConstants.XPATH_EMPLOYEE_FULLNAME));
-				EMPLOYEE.setAddress(l.get(CommonConstants.XPATH_EMPLOYEE_ADDRESS));
-				EMPLOYEE.setFacultyName(l.get(CommonConstants.XPATH_EMPLOYEE_ADDRESS));
-				EMPLOYEE.setDepartment(l.get(CommonConstants.XPATH_EMPLOYEE_DEPARTMENT));
-				EMPLOYEE.setDesignation(l.get(CommonConstants.XPATH_EMPLOYEE_DESIGNATION));
-				employeeList.add(EMPLOYEE);
-				System.out.println(EMPLOYEE.toString() + CommonConstants.LINE_BREAK);
+				Employee Employee = new Employee();
+				Employee.setEmployeeId(l.get(CommonConstants.XPATH_EMPLOYEE_ID));
+				Employee.setFullName(l.get(CommonConstants.XPATH_EMPLOYEE_FULLNAME));
+				Employee.setAddress(l.get(CommonConstants.XPATH_EMPLOYEE_ADDRESS));
+				Employee.setFacultyName(l.get(CommonConstants.XPATH_EMPLOYEE_ADDRESS));
+				Employee.setDepartment(l.get(CommonConstants.XPATH_EMPLOYEE_DEPARTMENT));
+				Employee.setDesignation(l.get(CommonConstants.XPATH_EMPLOYEE_DESIGNATION));
+				employeeList.add(Employee);
+				System.out.println(Employee.toString() + CommonConstants.LINE_BREAK);
 			}
 		} catch (ParserConfigurationException e) {
 			log.log(Level.SEVERE, e.getMessage());
@@ -72,7 +89,13 @@ public class EmployeeService extends CommonUtil {
 		}
 	}
 
-	public void a3() {
+	/**
+	 * Drop the Employees table and recreate table structure
+	 * 
+	 * @throws SQLException - Thrown when database access error occurs or this method is called on a closed connection
+	 *                          
+	 */
+	public void createEmployeeTable() {
 		try {
 			statement = connection.createStatement();
 			statement.executeUpdate(Query.queryById(CommonConstants.QUERY_ID_DROP_TABLE));
@@ -84,7 +107,12 @@ public class EmployeeService extends CommonUtil {
 		}
 	}
 
-	public void a4() {
+	/**
+	 * Add employees to the employeeList
+	 * 
+	 * @throws SQLException - Thrown when database access error occurs or this method is called on a closed connection
+	 */
+	public void addEmployee() {
 		try {
 			preparedStatement = connection.prepareStatement(Query.queryById(CommonConstants.QUERY_ID_INSERT));
 			connection.setAutoCommit(false);
@@ -106,7 +134,17 @@ public class EmployeeService extends CommonUtil {
 		}
 	}
 
-	public void eMPLOYEEGETBYID(String eid) {
+	/**
+	 * Get the employee by using given employee ID
+	 * 
+	 * @param eid - parameter for get employee ID
+	 * @param empList - ArrayList to store the employee details
+	 * 
+	 * @see #diplayEmployees()
+	 * 
+	 * @throws SQLException - Thrown when database access error occurs or this method is called on a closed connection
+	 */
+	public void getEmployeeByID(String eid) {
 
 		Employee employee = new Employee();
 		try {
@@ -121,9 +159,9 @@ public class EmployeeService extends CommonUtil {
 				employee.setDepartment(resultTest.getString(5));
 				employee.setDesignation(resultTest.getString(6));
 			}
-			ArrayList<Employee> list = new ArrayList<Employee>();
-			list.add(employee);
-			eMPLOYEEoUTPUT(list);
+			ArrayList<Employee> empList = new ArrayList<Employee>();
+			empList.add(employee);
+			diplayEmployees(empList);
 		} catch (SQLException e) {
 			log.log(Level.SEVERE, e.getMessage());
 		} catch (Exception e) {
@@ -131,7 +169,14 @@ public class EmployeeService extends CommonUtil {
 		}
 	}
 
-	public void EMPLOYEEDELETE(String eid) {
+	/**
+	 * Delete the given employee by using employee ID
+	 * 
+	 * @param eid - parameter for get employee ID
+	 * 
+	 * @throws SQLException - Thrown when database access error occurs or this method is called on a closed connection
+	 */
+	public void deleteEmployee(String eid) {
 
 		try {
 			preparedStatement = connection.prepareStatement(Query.queryById(CommonConstants.QUERY_ID_DELETE));
@@ -142,34 +187,46 @@ public class EmployeeService extends CommonUtil {
 		}
 	}
 
-	public void a5() {
+	/**
+	 * Get all employees and store to ArrayList
+	 * 
+	 * @param empList - ArrayList to store all the employees details
+	 * @see #diplayEmployees()
+	 * 
+	 */
+	public void getEmployees() {
 
-		ArrayList<Employee> list = new ArrayList<Employee>();
+		ArrayList<Employee> empList = new ArrayList<Employee>();
 		try {
 			preparedStatement = connection.prepareStatement(Query.queryById(CommonConstants.QUERY_ID_RETRIEVE_ALL));
-			ResultSet r = preparedStatement.executeQuery();
-			while (r.next()) {
-				Employee e = new Employee();
-				e.setEmployeeId(r.getString(1));
-				e.setFullName(r.getString(2));
-				e.setAddress(r.getString(3));
-				e.setFacultyName(r.getString(4));
-				e.setDepartment(r.getString(5));
-				e.setDesignation(r.getString(6));
-				list.add(e);
+			ResultSet resultSet = preparedStatement.executeQuery();
+			while (resultSet.next()) {
+				Employee emplyoee = new Employee();
+				emplyoee.setEmployeeId(resultSet.getString(1));
+				emplyoee.setFullName(resultSet.getString(2));
+				emplyoee.setAddress(resultSet.getString(3));
+				emplyoee.setFacultyName(resultSet.getString(4));
+				emplyoee.setDepartment(resultSet.getString(5));
+				emplyoee.setDesignation(resultSet.getString(6));
+				empList.add(emplyoee);
 			}
 		} catch (Exception e) {
 		}
-		eMPLOYEEoUTPUT(list);
+		diplayEmployees(empList);
 	}
-
-	public void eMPLOYEEoUTPUT(ArrayList<Employee> list) {
+	
+	/**
+	 * Print all employee details according to the given structure
+	 * 
+	 * @param employeeList - get the employee details to the ArrayList
+	 */
+	public void diplayEmployees(ArrayList<Employee> employeeList) {
 
 		log.log(Level.INFO, "Employee ID" + "\t\t" + "Full Name" + "\t\t" + "Address" + "\t\t" + "Faculty Name" + "\t\t"
 				+ "Department" + "\t\t" + "Designation" + "\n");
 		log.log(Level.INFO,
 				"================================================================================================================");
-		for (Employee employee : list) {
+		for (Employee employee : employeeList) {
 			log.log(Level.INFO,
 					employee.getEmployeeId() + "\t" + employee.getFullName() + "\t\t" + employee.getAddress() + "\t"
 							+ employee.getFacultyName() + "\t" + employee.getDepartment() + "\t"
