@@ -30,13 +30,12 @@ import javax.xml.xpath.XPathExpression;
 	** Transformation Class
 	* Transform EmployeeRequest.xml to EmployeeResponse.xml structure based o nEmployee-modified.xsl
  */
-
 public class Transformation extends CommonUtil {
 
-	/** Initialize employeeList - Array List for store employees*/
+	/* Initialize employeeList - Array List for store employees*/
 	private static final ArrayList<Map<String, String>> employeeList = new ArrayList<Map<String, String>>();
 
-	/** Initialize employeeMap - Map for store employee*/
+	/* Initialize employeeMap - Map for store employee*/
 	private static Map<String, String> employeeMap = null;
 
 	/**

@@ -15,15 +15,15 @@ public class Main {
 	 */
 	public static void main(String[] args) {
 
-		EmployeeService a1 = new EmployeeService();
+		EmployeeService employeeService = new EmployeeService();
 		try {
 			Transformation.requestTransform();
-			a1.a2();
-			a1.a3();
-			a1.a4();
+			employeeService.setEmployees();;
+			employeeService.createEmployeeTable();;
+			employeeService.addEmployee();;
 //			employeeService.eMPLOYEEGETBYID("EMP10004");
 //			employeeService.EMPLOYEEDELETE("EMP10001");
-			a1.a5();
+			employeeService.getEmployees();;
 		} catch (Exception e) {
 		}
 
