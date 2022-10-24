@@ -17,9 +17,13 @@ public class CommonConstants {
 
     /** Constant for the path for the EmployeeQuery.xml */
     public static final String EMPLOYEE_QUERY_PATH = "src/com/refactoring/resources/EmployeeQuery.xml";
+    public static final String PROPERTIES_PATH = "./config.properties";
+    public static final String QUERY = "query";
+
     
     /** Constant for tag name query */
     public static final String QUERY_TAG_NAME = "query";
+
 
     /** Constant for id attribute in the query tag */
     public static final String QUERY_ATTRIBUTE_ID = "id";
