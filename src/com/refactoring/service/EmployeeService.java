@@ -3,6 +3,7 @@ package com.refactoring.service;
 import com.refactoring.model.Employee;
 import com.refactoring.util.CommonConstants;
 import com.refactoring.util.CommonUtil;
+import com.refactoring.util.DBConnectionUtil;
 import com.refactoring.util.Query;
 import com.refactoring.util.Transformation;
 import java.io.IOException;
@@ -28,18 +29,22 @@ public class EmployeeService extends CommonUtil {
 	private PreparedStatement preparedStatement;
 	public static final Logger log = Logger.getLogger(EmployeeService.class.getName());
 
+
+	
+
+
 	/**
 	 * Create EmployeeService constructor 
 	 */
+
 	public EmployeeService() {
 		try {
-			Class.forName(CommonConstants.CLASSNAME);
-			connection = DriverManager.getConnection(properties.getProperty(CommonConstants.URL),
-					properties.getProperty(CommonConstants.USERNAME), properties.getProperty(CommonConstants.PASSWORD));
+			connection = DBConnectionUtil.getDBConnection();
+			
 
 		} catch (SQLException e) {
 			log.log(Level.SEVERE, e.getMessage());
-		} catch (Exception e) {
+		} catch (ClassNotFoundException e) {
 			log.log(Level.SEVERE, e.getMessage());
 		}
 	}
