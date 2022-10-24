@@ -12,14 +12,21 @@ public class CommonConstants {
     /** Constant for password for MySQL stored in config.properties */
     public static final String PASSWORD = "password";
 
+    /** Constant for driver name in config.properties */
+	public static final String DRIVER_NAME = "driverName";
+
     /** Constant for classname */
     public static final String CLASSNAME = "com.mysql.jdbc.Driver";
 
     /** Constant for the path for the EmployeeQuery.xml */
     public static final String EMPLOYEE_QUERY_PATH = "src/com/refactoring/resources/EmployeeQuery.xml";
+    public static final String PROPERTIES_PATH = "./config.properties";
+    public static final String QUERY = "query";
+
     
     /** Constant for tag name query */
     public static final String QUERY_TAG_NAME = "query";
+
 
     /** Constant for id attribute in the query tag */
     public static final String QUERY_ATTRIBUTE_ID = "id";

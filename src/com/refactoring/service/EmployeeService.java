@@ -3,6 +3,7 @@ package com.refactoring.service;
 import com.refactoring.model.Employee;
 import com.refactoring.util.CommonConstants;
 import com.refactoring.util.CommonUtil;
+import com.refactoring.util.DBConnectionUtil;
 import com.refactoring.util.Query;
 import com.refactoring.util.Transformation;
 import java.io.IOException;
@@ -20,163 +21,62 @@ import javax.xml.xpath.XPathExpressionException;
 import javax.xml.parsers.ParserConfigurationException;
 import org.xml.sax.SAXException;
 
-public class EmployeeService extends CommonUtil {
+/**
+ * Abstract class for template method
+ *
+ */
+public abstract class EmployeeService extends CommonUtil {
+	
+	abstract void setEmployees();
+	abstract void createEmployeeTable();
+	abstract void addEmployee();
+	abstract void getEmployeeByID(String eid);
+	abstract void deleteEmployee(String eid);
+	abstract void getEmployees();
+	abstract void diplayEmployees(ArrayList<Employee> employeeList);
+	
 
-	private final ArrayList<Employee> employeeList = new ArrayList<Employee>();
 	private static Connection connection;
-	private static Statement statement;
-	private PreparedStatement preparedStatement;
 	public static final Logger log = Logger.getLogger(EmployeeService.class.getName());
+
+	/**
+	 * Create EmployeeService constructor and build database connection
+	 */
 
 	public EmployeeService() {
 		try {
-			Class.forName(CommonConstants.CLASSNAME);
-			connection = DriverManager.getConnection(properties.getProperty(CommonConstants.URL),
-					properties.getProperty(CommonConstants.USERNAME), properties.getProperty(CommonConstants.PASSWORD));
+			connection = DBConnectionUtil.getDBConnection();
 
 		} catch (SQLException e) {
 			log.log(Level.SEVERE, e.getMessage());
-		} catch (Exception e) {
+		} catch (ClassNotFoundException e) {
 			log.log(Level.SEVERE, e.getMessage());
 		}
 	}
 
-	public void a2() {
-
-		try {
-			int s = Transformation.XMLXPATHS().size();
-			for (int i = 0; i < s; i++) {
-				Map<String, String> l = Transformation.XMLXPATHS().get(i);
-				Employee EMPLOYEE = new Employee();
-				EMPLOYEE.setEmployeeId(l.get(CommonConstants.XPATH_EMPLOYEE_ID));
-				EMPLOYEE.setFullName(l.get(CommonConstants.XPATH_EMPLOYEE_FULLNAME));
-				EMPLOYEE.setAddress(l.get(CommonConstants.XPATH_EMPLOYEE_ADDRESS));
-				EMPLOYEE.setFacultyName(l.get(CommonConstants.XPATH_EMPLOYEE_ADDRESS));
-				EMPLOYEE.setDepartment(l.get(CommonConstants.XPATH_EMPLOYEE_DEPARTMENT));
-				EMPLOYEE.setDesignation(l.get(CommonConstants.XPATH_EMPLOYEE_DESIGNATION));
-				employeeList.add(EMPLOYEE);
-				System.out.println(EMPLOYEE.toString() + CommonConstants.LINE_BREAK);
-			}
-		} catch (ParserConfigurationException e) {
-			log.log(Level.SEVERE, e.getMessage());
-		} catch (SAXException e) {
-			log.log(Level.SEVERE, e.getMessage());
-		} catch (IOException e) {
-			log.log(Level.SEVERE, e.getMessage());
-		} catch (NumberFormatException e) {
-			log.log(Level.SEVERE, e.getMessage());
-		} catch (XPathExpressionException e) {
-			log.log(Level.SEVERE, e.getMessage());
-		} catch (Exception e) {
-			log.log(Level.SEVERE, e.getMessage());
-		}
-	}
-
-	public void a3() {
-		try {
-			statement = connection.createStatement();
-			statement.executeUpdate(Query.queryById(CommonConstants.QUERY_ID_DROP_TABLE));
-			statement.executeUpdate(Query.queryById(CommonConstants.QUERY_ID_CREATE_TABLE));
-		} catch (SQLException e) {
-			log.log(Level.SEVERE, e.getMessage());
-		} catch (Exception e) {
-			log.log(Level.SEVERE, e.getMessage());
-		}
-	}
-
-	public void a4() {
-		try {
-			preparedStatement = connection.prepareStatement(Query.queryById(CommonConstants.QUERY_ID_INSERT));
-			connection.setAutoCommit(false);
-			for (Employee employee : employeeList) {
-				preparedStatement.setString(1, employee.getEmployeeId());
-				preparedStatement.setString(2, employee.getFullName());
-				preparedStatement.setString(3, employee.getAddress());
-				preparedStatement.setString(4, employee.getFacultyName());
-				preparedStatement.setString(5, employee.getDepartment());
-				preparedStatement.setString(6, employee.getDesignation());
-				preparedStatement.addBatch();
-			}
-			preparedStatement.executeBatch();
-			connection.commit();
-		} catch (SQLException e) {
-			log.log(Level.SEVERE, e.getMessage());
-		} catch (Exception e) {
-			log.log(Level.SEVERE, e.getMessage());
-		}
-	}
-
-	public void eMPLOYEEGETBYID(String eid) {
-
-		Employee employee = new Employee();
-		try {
-			preparedStatement = connection.prepareStatement(Query.queryById(CommonConstants.QUERY_ID_RETRIEVE_BY_ID));
-			preparedStatement.setString(1, eid);
-			ResultSet resultTest = preparedStatement.executeQuery();
-			while (resultTest.next()) {
-				employee.setEmployeeId(resultTest.getString(1));
-				employee.setFullName(resultTest.getString(2));
-				employee.setAddress(resultTest.getString(3));
-				employee.setFacultyName(resultTest.getString(4));
-				employee.setDepartment(resultTest.getString(5));
-				employee.setDesignation(resultTest.getString(6));
-			}
-			ArrayList<Employee> list = new ArrayList<Employee>();
-			list.add(employee);
-			eMPLOYEEoUTPUT(list);
-		} catch (SQLException e) {
-			log.log(Level.SEVERE, e.getMessage());
-		} catch (Exception e) {
-			log.log(Level.SEVERE, e.getMessage());
-		}
-	}
-
-	public void EMPLOYEEDELETE(String eid) {
-
-		try {
-			preparedStatement = connection.prepareStatement(Query.queryById(CommonConstants.QUERY_ID_DELETE));
-			preparedStatement.setString(1, eid);
-			preparedStatement.executeUpdate();
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-	}
-
-	public void a5() {
-
-		ArrayList<Employee> list = new ArrayList<Employee>();
-		try {
-			preparedStatement = connection.prepareStatement(Query.queryById(CommonConstants.QUERY_ID_RETRIEVE_ALL));
-			ResultSet r = preparedStatement.executeQuery();
-			while (r.next()) {
-				Employee e = new Employee();
-				e.setEmployeeId(r.getString(1));
-				e.setFullName(r.getString(2));
-				e.setAddress(r.getString(3));
-				e.setFacultyName(r.getString(4));
-				e.setDepartment(r.getString(5));
-				e.setDesignation(r.getString(6));
-				list.add(e);
-			}
-		} catch (Exception e) {
-		}
-		eMPLOYEEoUTPUT(list);
-	}
-
-	public void eMPLOYEEoUTPUT(ArrayList<Employee> list) {
-
-		log.log(Level.INFO, "Employee ID" + "\t\t" + "Full Name" + "\t\t" + "Address" + "\t\t" + "Faculty Name" + "\t\t"
-				+ "Department" + "\t\t" + "Designation" + "\n");
-		log.log(Level.INFO,
-				"================================================================================================================");
-		for (Employee employee : list) {
-			log.log(Level.INFO,
-					employee.getEmployeeId() + "\t" + employee.getFullName() + "\t\t" + employee.getAddress() + "\t"
-							+ employee.getFacultyName() + "\t" + employee.getDepartment() + "\t"
-							+ employee.getDesignation() + "\n");
-			log.log(Level.INFO,
-					"----------------------------------------------------------------------------------------------------------------");
-		}
-
-	}
+	
+	   // Template method for get all employees 
+	   public final void getAllEmployees() {
+		   setEmployees();
+		   createEmployeeTable();
+		   addEmployee();
+		   getEmployees();
+	   }
+	   
+	   // Template method for get all employee by id
+	   public final void getEmployeeById(String eid) {
+		   setEmployees();
+		   createEmployeeTable();
+		   addEmployee();
+		   getEmployeeByID(eid);
+	   }
+	   
+	   // Template method for delete employee by id
+	   public final void deleteEmployeeById(String eid) {
+		   setEmployees();
+		   createEmployeeTable();
+		   addEmployee();
+		   deleteEmployee(eid);
+	   }
+		
 }

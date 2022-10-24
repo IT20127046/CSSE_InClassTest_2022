@@ -24,49 +24,66 @@ import javax.xml.transform.stream.StreamSource;
 import javax.xml.transform.TransformerFactory;
 import javax.xml.xpath.XPath;
 import javax.xml.xpath.XPathConstants;
+import javax.xml.xpath.XPathException;
 import javax.xml.xpath.XPathExpression;
 
 /**
 	** Transformation Class
+	* Transform EmployeeRequest.xml to EmployeeResponse.xml structure based o nEmployee-modified.xsl
  */
-
 public class Transformation extends CommonUtil {
 
-	private static final ArrayList<Map<String, String>> l = new ArrayList<Map<String, String>>();
+	/* Initialize employeeList - Array List for store employees*/
+	private static final ArrayList<Map<String, String>> employeeList = new ArrayList<Map<String, String>>();
 
-	private static Map<String, String> m = null;
+	/* Initialize employeeMap - Map for store employee*/
+	private static Map<String, String> employeeMap = null;
 
-	public static void requestTransform() throws Exception {
+	/**
+	 * Transform XML
+	 * @param employeeRequestXML - 
+	 * @param employeeModifiedXSL - 
+	 * @param employeeResponseXML - 
+	 * @throws Exception
+	 */
+	public static void requestTransform() throws IOException,TransformerException,XPathException,TransformerConfigurationException,TransformerFactoryConfigurationError,SAXException,ParserConfigurationException,XPathExpressionException {
 
-		Source EmployeeRequestXML = new StreamSource(new File("src/com/refactoring/resources/EmployeeRequest.xml"));
-		Source EmployeeModifiedXSL = new StreamSource(new File("src/com/refactoring/resources/Employee-modified.xsl"));
-		Result EmployeeResponseXML = new StreamResult(new File("src/com/refactoring/resources/EmployeeResponse.xml"));
-		TransformerFactory.newInstance().newTransformer(EmployeeModifiedXSL).transform(EmployeeRequestXML, EmployeeResponseXML);
+		Source employeeRequestXML = new StreamSource(new File(CommonConstants.EMPLOYEE_REQUEST_XML_PATH));
+		Source employeeModifiedXSL = new StreamSource(new File(CommonConstants.EMPLOYEE_MODIFIED_XSL_PATH));
+		Result employeeResponseXML = new StreamResult(new File(CommonConstants.EMPLOYEE_RESPONSE_XML_PATH));
+		TransformerFactory.newInstance().newTransformer(employeeModifiedXSL).transform(employeeRequestXML, employeeResponseXML);
 	}
 
-	public static ArrayList<Map<String, String>> XMLXPATHS() throws Exception {
+	/**
+	 * @param responseDocument - 
+	 * @param EmployeeRequestXML - 
+	 * @param employeeCount - 
+	 * @return employeeList - 
+	 * @throws Exception
+	 */
+	public static ArrayList<Map<String, String>> xmlPaths() throws Exception {
 
-		Document d = DocumentBuilderFactory.newInstance().newDocumentBuilder()
-				.parse("src/com/refactoring/resources/EmployeeResponse.xml");
-		XPath EmployeeRequestXML = XPathFactory.newInstance().newXPath();
-		int n = Integer.parseInt((String) EmployeeRequestXML.compile("count(//Employees/Employee)").evaluate(d, XPathConstants.STRING));
-		for (int i = 1; i <= n; i++) {
-			m = new HashMap<String, String>();
-			m.put("XpathEmployeeIDKey", (String) EmployeeRequestXML.compile("//Employees/Employee[" + i + "]/EmployeeID/text()")
-					.evaluate(d, XPathConstants.STRING));
-			m.put("XpathEmployeeNameKey", (String) EmployeeRequestXML.compile("//Employees/Employee[" + i + "]/EmployeeFullName/text()")
-					.evaluate(d, XPathConstants.STRING));
-			m.put("XpathEmployeeAddressKey",
-					(String) EmployeeRequestXML.compile("//Employees/Employee[" + i + "]/EmployeeFullAddress/text()").evaluate(d,
+		Document responseDocument = DocumentBuilderFactory.newInstance().newDocumentBuilder()
+				.parse(CommonConstants.EMPLOYEE_RESPONSE_XML_PATH);
+		XPath employeeRequestXML = XPathFactory.newInstance().newXPath();
+		int employeeCount = Integer.parseInt((String) employeeRequestXML.compile("count(//Employees/Employee)").evaluate(responseDocument, XPathConstants.STRING));
+		for (int i = 1; i <= employeeCount; i++) {
+			employeeMap = new HashMap<String, String>();
+			employeeMap.put("XpathEmployeeIDKey", (String) employeeRequestXML.compile("//Employees/Employee[" + i + "]/EmployeeID/text()")
+					.evaluate(responseDocument, XPathConstants.STRING));
+			employeeMap.put("XpathEmployeeNameKey", (String) employeeRequestXML.compile("//Employees/Employee[" + i + "]/EmployeeFullName/text()")
+					.evaluate(responseDocument, XPathConstants.STRING));
+			employeeMap.put("XpathEmployeeAddressKey",
+					(String) employeeRequestXML.compile("//Employees/Employee[" + i + "]/EmployeeFullAddress/text()").evaluate(responseDocument,
 							XPathConstants.STRING));
-			m.put("XpathFacultyNameKey", (String) EmployeeRequestXML.compile("//Employees/Employee[" + i + "]/FacultyName/text()")
-					.evaluate(d, XPathConstants.STRING));
-			m.put("XpathDepartmentKey", (String) EmployeeRequestXML.compile("//Employees/Employee[" + i + "]/Department/text()")
-					.evaluate(d, XPathConstants.STRING));
-			m.put("XpathDesignationKey", (String) EmployeeRequestXML.compile("//Employees/Employee[" + i + "]/Designation/text()")
-					.evaluate(d, XPathConstants.STRING));
-			l.add(m);
+			employeeMap.put("XpathFacultyNameKey", (String) employeeRequestXML.compile("//Employees/Employee[" + i + "]/FacultyName/text()")
+					.evaluate(responseDocument, XPathConstants.STRING));
+			employeeMap.put("XpathDepartmentKey", (String) employeeRequestXML.compile("//Employees/Employee[" + i + "]/Department/text()")
+					.evaluate(responseDocument, XPathConstants.STRING));
+			employeeMap.put("XpathDesignationKey", (String) employeeRequestXML.compile("//Employees/Employee[" + i + "]/Designation/text()")
+					.evaluate(responseDocument, XPathConstants.STRING));
+			employeeList.add(employeeMap);
 		}
-		return l;
+		return employeeList;
 	}
 }
