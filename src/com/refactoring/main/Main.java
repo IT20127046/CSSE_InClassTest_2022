@@ -6,6 +6,7 @@ import javax.xml.transform.TransformerException;
 import javax.xml.transform.TransformerFactoryConfigurationError;
 
 import com.refactoring.service.EmployeeService;
+import com.refactoring.service.EmployeeServiceImpl;
 import com.refactoring.util.Transformation;
 
 public class Main {
@@ -14,16 +15,18 @@ public class Main {
 	 * @param args
 	 */
 	public static void main(String[] args) {
-
-		EmployeeService employeeService = new EmployeeService();
+		
 		try {
 			Transformation.requestTransform();
-			employeeService.setEmployees();;
-			employeeService.createEmployeeTable();;
-			employeeService.addEmployee();;
-//			employeeService.eMPLOYEEGETBYID("EMP10004");
-//			employeeService.EMPLOYEEDELETE("EMP10001");
-			employeeService.getEmployees();;
+			
+			// Get singleton instance form EmployeeServiceImpl class
+			EmployeeService employeeService = EmployeeServiceImpl.getInstance();
+			
+			employeeService.getAllEmployees();
+			
+			//employeeService.getEmployeeById("EMP10004");
+			//employeeService.deleteEmployeeById("EMP10001");
+
 		} catch (Exception e) {
 		}
 
