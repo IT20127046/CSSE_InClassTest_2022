@@ -31,14 +31,14 @@ public class EmployeeService extends CommonUtil {
 	public EmployeeService() {
 		try {
 			Class.forName(CommonConstants.CLASSNAME);
-			connection = DriverManager.getConnection(p.getProperty(CommonConstants.URL), p.getProperty(CommonConstants.USERNAME), p.getProperty(CommonConstants.PASSWORD));
-					p.getProperty(CommonConstants.PASSWORD);
+			connection = DriverManager.getConnection(properties.getProperty(CommonConstants.URL),
+					properties.getProperty(CommonConstants.USERNAME), properties.getProperty(CommonConstants.PASSWORD));
 
 		} catch (SQLException e) {
 			log.log(Level.SEVERE, e.getMessage());
 		} catch (Exception e) {
 			log.log(Level.SEVERE, e.getMessage());
-		} 
+		}
 	}
 
 	public void a2() {
@@ -59,11 +59,11 @@ public class EmployeeService extends CommonUtil {
 			}
 		} catch (ParserConfigurationException e) {
 			log.log(Level.SEVERE, e.getMessage());
-		} catch(SAXException e){
+		} catch (SAXException e) {
 			log.log(Level.SEVERE, e.getMessage());
 		} catch (IOException e) {
 			log.log(Level.SEVERE, e.getMessage());
-		} catch(NumberFormatException e) {
+		} catch (NumberFormatException e) {
 			log.log(Level.SEVERE, e.getMessage());
 		} catch (XPathExpressionException e) {
 			log.log(Level.SEVERE, e.getMessage());
@@ -88,7 +88,7 @@ public class EmployeeService extends CommonUtil {
 		try {
 			preparedStatement = connection.prepareStatement(Query.queryById(CommonConstants.QUERY_ID_INSERT));
 			connection.setAutoCommit(false);
-			for(Employee employee: employeeList) {
+			for (Employee employee : employeeList) {
 				preparedStatement.setString(1, employee.getEmployeeId());
 				preparedStatement.setString(2, employee.getFullName());
 				preparedStatement.setString(3, employee.getAddress());
@@ -102,7 +102,7 @@ public class EmployeeService extends CommonUtil {
 		} catch (SQLException e) {
 			log.log(Level.SEVERE, e.getMessage());
 		} catch (Exception e) {
-			log.log(Level.SEVERE,e.getMessage());
+			log.log(Level.SEVERE, e.getMessage());
 		}
 	}
 
@@ -127,7 +127,7 @@ public class EmployeeService extends CommonUtil {
 		} catch (SQLException e) {
 			log.log(Level.SEVERE, e.getMessage());
 		} catch (Exception e) {
-			log.log(Level.SEVERE,e.getMessage());
+			log.log(Level.SEVERE, e.getMessage());
 		}
 	}
 
@@ -162,18 +162,21 @@ public class EmployeeService extends CommonUtil {
 		}
 		eMPLOYEEoUTPUT(list);
 	}
-	
-	public void eMPLOYEEoUTPUT(ArrayList<Employee> list){
-		
+
+	public void eMPLOYEEoUTPUT(ArrayList<Employee> list) {
+
 		log.log(Level.INFO, "Employee ID" + "\t\t" + "Full Name" + "\t\t" + "Address" + "\t\t" + "Faculty Name" + "\t\t"
 				+ "Department" + "\t\t" + "Designation" + "\n");
-		log.log(Level.INFO, "================================================================================================================");
-		for(Employee employee: list){
-			log.log(Level.INFO, employee.getEmployeeId() + "\t" + employee.getFullName() + "\t\t"
-					+ employee.getAddress() + "\t" + employee.getFacultyName() + "\t" + employee.getDepartment() + "\t"
-					+ employee.getDesignation() + "\n");
-			log.log(Level.INFO, "----------------------------------------------------------------------------------------------------------------");
+		log.log(Level.INFO,
+				"================================================================================================================");
+		for (Employee employee : list) {
+			log.log(Level.INFO,
+					employee.getEmployeeId() + "\t" + employee.getFullName() + "\t\t" + employee.getAddress() + "\t"
+							+ employee.getFacultyName() + "\t" + employee.getDepartment() + "\t"
+							+ employee.getDesignation() + "\n");
+			log.log(Level.INFO,
+					"----------------------------------------------------------------------------------------------------------------");
 		}
-		
+
 	}
 }
