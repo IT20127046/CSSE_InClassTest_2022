@@ -4,6 +4,7 @@ package com.refactoring.util;
 public class CommonConstants {
 
     public static final String EMPLOYEE_QUERY_PATH = "src/com/refactoring/resources/EmployeeQuery.xml";
+    public static final String PROPERTIES_PATH = "./config.properties";
     public static final String QUERY = "query";
 
     public static final String ID = "id";
